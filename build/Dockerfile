@@ -1,0 +1,1 @@
+FROM --platform=linux/amd64 grafana/grafana:9.5.3
