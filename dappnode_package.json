@@ -1,7 +1,7 @@
 {
   "name": "grafana.avado.dappnode.eth",
   "version": "0.0.1",
-  "description": "avado-dnp-grafana.avado.dappnode.eth description",
+  "description": "Grafana server",
   "autoupdate": true,
   "title": "Grafana",
   "type": "library",
