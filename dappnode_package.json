@@ -1,6 +1,7 @@
 {
   "name": "grafana.avado.dappnode.eth",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "upstream": "11.2.0",
   "description": "Grafana server",
   "autoupdate": true,
   "title": "Grafana",
