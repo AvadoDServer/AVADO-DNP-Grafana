@@ -1,1 +1,1 @@
-FROM --platform=linux/amd64 grafana/grafana:9.5.3
+FROM --platform=linux/amd64 grafana/grafana:11.2.0
