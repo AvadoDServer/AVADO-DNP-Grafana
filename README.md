@@ -29,7 +29,10 @@ Thanks to DAppNode, ConsenSys and Status for these dashboards. Changes made for 
 datasource references point to the provisioned `Prometheus` datasource (uid `prometheus`),
 label selectors use the job names of the AVADO Prometheus configuration (`node`, `teku`,
 `nimbus`, `prysm-beacon`, `prysm-validator`), the Nimbus `container` variable was removed and
-cAdvisor's `machine_cpu_cores` was replaced with `count(node_cpu_seconds_total{mode="idle"})`.
+cAdvisor's `machine_cpu_cores` was replaced with `count(node_cpu_seconds_total{mode="idle"})`,
+and the Host dashboard gained a **Drive Temp** stat and a **Temperature** graph built on
+node-exporter's `hwmon` collector (NVMe composite temperature, SATA drives through the
+`drivetemp` module, CPU and mainboard sensors where the board exposes them).
 
 The Teku and Nimbus dashboards need Teku >= 0.0.73 / Nimbus >= 0.0.48 packages, which enable
 the clients' metrics endpoints.
