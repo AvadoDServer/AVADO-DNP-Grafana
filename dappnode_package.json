@@ -1,10 +1,10 @@
 {
   "name": "grafana.avado.dappnode.eth",
-  "version": "0.0.2",
-  "upstream": "11.2.0",
-  "description": "Grafana server",
+  "version": "0.0.3",
+  "upstream": "12.4.11",
+  "description": "Grafana dashboards for your AVADO: host (CPU, memory, disk, network), Teku, Nimbus and Prysm. Installing it also installs Prometheus (collects the metrics) and Node exporter (host metrics). Anyone on the AVADO network can view the dashboards; the admin password is printed in this package's log on first start.",
   "autoupdate": true,
-  "title": "Grafana",
+  "title": "Grafana (monitoring)",
   "type": "library",
   "avatar": "/ipfs/QmYRmFCtdXvqq3drc6kBXxeWiiMatTfKVpVrmLX883cQbR",
   "author": "sp",
@@ -14,13 +14,16 @@
       "/etc/timezone:/etc/timezone:ro",
       "/etc/localtime:/etc/localtime:ro"
     ],
-    "ports": [
-      "3000/tcp"
-    ],
+    "ports": [],
     "environment": [
-      "GF_SERVER_HTTP_PORT=3000"
+      "GF_SERVER_HTTP_PORT=3000",
+      "GF_SECURITY_ADMIN_PASSWORD="
     ],
     "restart": "always"
+  },
+  "dependencies": {
+    "prometheus.avado.dappnode.eth": "0.0.2",
+    "node-exporter.avado.dappnode.eth": "0.0.2"
   },
   "links": {
     "UI": "http://grafana.my.ava.do:3000"
