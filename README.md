@@ -63,4 +63,6 @@ the clients' metrics endpoints.
 - [build/provisioning](build/provisioning): the Prometheus datasource
   (`http://prometheus.my.ava.do:9090`) and the dashboard provider.
 - [build/dashboards](build/dashboards): the dashboards, copied to `/var/lib/grafana-dashboards`.
+  The Host dashboard's temperature panels come from node-exporter's `hwmon` collector, so
+  they show whatever sensors the mainboard exposes; a box with no readable sensor shows N/A.
 - Other Grafana settings can be changed with `GF_<SECTION>_<KEY>` environment variables.
