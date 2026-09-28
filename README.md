@@ -5,9 +5,11 @@
 Installing it from the DappStore also installs its dependencies:
 
 - [Prometheus](https://github.com/AvadoDServer/AVADO-DNP-Prometheus) (`prometheus.avado.dappnode.eth`),
-  which collects the metrics, and
+  which collects the metrics,
 - [Node exporter](https://github.com/AvadoDServer/AVADO-DNP-Node-exporter) (`node-exporter.avado.dappnode.eth`),
-  which exposes the AVADO's CPU, memory, disk and network metrics.
+  which exposes the AVADO's CPU, memory, disk and network metrics, and
+- [SMART disk stats](https://github.com/AvadoDServer/AVADO-DNP-Smartctl-exporter) (`smartctl-exporter.avado.dappnode.eth`),
+  which reads the health, temperature and wear of the AVADO's drives.
 
 Open Grafana with the **Open** button in the AVADO admin UI, or go to
 http://grafana.my.ava.do:3000 from a device connected to the AVADO network.
@@ -24,8 +26,9 @@ and are updated together with the package; save a copy to customise one):
 | Teku | ConsenSys' Teku dashboard ([grafana.com 13457](https://grafana.com/grafana/dashboards/13457)), as shipped in [DAppNodePackage-teku-generic](https://github.com/dappnode/DAppNodePackage-teku-generic) | Apache-2.0 |
 | Nimbus | Status' Nimbus dashboard from [status-im/nimbus-eth2 `grafana/`](https://github.com/status-im/nimbus-eth2/tree/unstable/grafana), as shipped in [DAppNodePackage-nimbus-generic](https://github.com/dappnode/DAppNodePackage-nimbus-generic) | Apache-2.0 / MIT |
 | Prysm | `prysm-grafana-dashboard.json` from [DAppNodePackage-prysm-generic](https://github.com/dappnode/DAppNodePackage-prysm-generic) | GPL-3.0 |
+| Disk health | Richard Durso's SMARTctl Exporter Dashboard ([grafana.com 22604](https://grafana.com/grafana/dashboards/22604)) from [reefland/grafana-dashboards](https://github.com/reefland/grafana-dashboards/tree/main/smartctl-exporter) | MIT, Copyright (c) 2025 Richard Durso (full notice in [build/dashboards/disks.LICENSE](build/dashboards/disks.LICENSE)) |
 
-Thanks to DAppNode, ConsenSys and Status for these dashboards. Changes made for AVADO:
+Thanks to DAppNode, ConsenSys, Status and Richard Durso for these dashboards. Changes made for AVADO:
 datasource references point to the provisioned `Prometheus` datasource (uid `prometheus`),
 label selectors use the job names of the AVADO Prometheus configuration (`node`, `teku`,
 `nimbus`, `prysm-beacon`, `prysm-validator`), the Nimbus `container` variable was removed and
@@ -33,6 +36,12 @@ cAdvisor's `machine_cpu_cores` was replaced with `count(node_cpu_seconds_total{m
 and the Host dashboard gained a **Drive Temp** stat and a **Temperature** graph built on
 node-exporter's `hwmon` collector (NVMe composite temperature, SATA drives through the
 `drivetemp` module, CPU and mainboard sensors where the board exposes them).
+The Disk health dashboard keeps the upstream panels and queries; for AVADO the datasource
+picker was removed, the uid/title/tags were set (`avado-disks`, "Disk health"), the
+`<instance>` prefix was dropped from legends (one AVADO per Prometheus), the Media Errors and
+Critical Warnings panels say "None" instead of "No data" when there are none, and a
+**Health details** row was added: SMART status per drive, spare capacity left (NVMe) and NVMe
+error log entries.
 
 The Teku and Nimbus dashboards need Teku >= 0.0.73 / Nimbus >= 0.0.48 packages, which enable
 the clients' metrics endpoints.
@@ -63,6 +72,8 @@ the clients' metrics endpoints.
 - [build/provisioning](build/provisioning): the Prometheus datasource
   (`http://prometheus.my.ava.do:9090`) and the dashboard provider.
 - [build/dashboards](build/dashboards): the dashboards, copied to `/var/lib/grafana-dashboards`.
+  The Disk health dashboard reads the `smartctl_*` metrics of the SMART disk stats package
+  (Prometheus job `smartctl`, Prometheus package 0.0.3 or newer).
   The Host dashboard's temperature panels come from node-exporter's `hwmon` collector, so
   they show whatever sensors the mainboard exposes; a box with no readable sensor shows N/A.
 - Other Grafana settings can be changed with `GF_<SECTION>_<KEY>` environment variables.
