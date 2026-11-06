@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 grafana/grafana:12.4.13
+FROM --platform=linux/amd64 grafana/grafana:12.4.14
 
 COPY grafana.ini /etc/grafana/grafana.ini
 COPY provisioning/ /etc/grafana/provisioning/
